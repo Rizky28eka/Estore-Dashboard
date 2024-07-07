@@ -1,9 +1,11 @@
-import CollectionForm from "@/components/collections/CollectionForm"
+// Mengimpor komponen CollectionForm dari path yang sesuai
+import CollectionForm from "@/components/collections/CollectionForm";
 
+// Mendefinisikan komponen CreateCollection sebagai fungsi komponen
 const CreateCollection = () => {
-  return (
-    <CollectionForm />
-  )
-}
+  // Mengembalikan komponen CollectionForm untuk dirender
+  return <CollectionForm />;
+};
 
-export default CreateCollection
+// Mengekspor komponen CreateCollection sebagai default export
+export default CreateCollection;

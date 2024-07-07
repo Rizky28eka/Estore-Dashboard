@@ -1,24 +1,32 @@
+// Mengimpor NextRequest dan NextResponse dari next/server untuk handle request dan response
 import { NextRequest, NextResponse } from "next/server";
+// Mengimpor stripe dari lib/stripe untuk integrasi dengan Stripe API
 import { stripe } from "@/lib/stripe";
 
+// Headers CORS yang digunakan untuk mengizinkan akses dari berbagai sumber
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
+// Handler untuk metode OPTIONS, mengembalikan response JSON kosong dengan headers CORS
 export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
+// Handler untuk metode POST, melakukan proses checkout menggunakan Stripe
 export async function POST(req: NextRequest) {
   try {
+    // Mendapatkan cartItems dan customer dari body request
     const { cartItems, customer } = await req.json();
 
+    // Memeriksa apakah data cartItems atau customer kosong
     if (!cartItems || !customer) {
       return new NextResponse("Not enough data to checkout", { status: 400 });
     }
 
+    // Membuat session checkout menggunakan Stripe API
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -49,8 +57,10 @@ export async function POST(req: NextRequest) {
       cancel_url: `${process.env.ECOMMERCE_STORE_URL}/cart`,
     });
 
+    // Mengembalikan response session JSON dengan headers CORS
     return NextResponse.json(session, { headers: corsHeaders });
   } catch (err) {
+    // Menangkap dan menangani error jika terjadi kesalahan dalam proses checkout
     console.log("[checkout_POST]", err);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
