@@ -19,8 +19,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 // Metadata halaman untuk deskripsi admin dashboard
 export const metadata: Metadata = {
-  title: "Borcelle - Admin Dashboard",
-  description: "Admin dashboard to manage Borcelle's data",
+  title: "Estore - Admin Dashboard",
+  description: "Admin dashboard to manage Estore's data",
 };
 
 // Komponen RootLayout untuk menyusun layout utama halaman
